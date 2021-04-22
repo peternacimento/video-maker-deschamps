@@ -4,7 +4,9 @@ const robots = {
 }
 
 async function start(){
-    const content = {}
+    const content = {
+        maximuSentence: 7
+    }
 
     content.searchTerm = askAndReturnSearchTerm()
     content.prefix = askAndReturnPrefix()
@@ -23,7 +25,6 @@ async function start(){
         return selectedPrefixText
     }
 
-    //console.log(content)
 }
 
 start()
