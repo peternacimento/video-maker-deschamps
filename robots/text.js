@@ -15,16 +15,18 @@ const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
   serviceUrl: watsonUrl,
 })
 
-async function robot(content) {
+const state = require('./state.js')
+
+async function robot() {
+content = state.load()
+
   await fetchContentFromWikipedia(content)
   
-  //await fetchWatsonAndReturnKeywords('Lá, ele ganhou uma grande experiência prática em engenharia elétrica.')
-
   async function fetchContentFromWikipedia(content) {
 
-    var Algorithmia = require("algorithmia");
+    const Algorithmia = require("algorithmia");
 
-    var input = {
+    const input = {
       "articleName": `${content.prefix} ${content.searchTerm}`,
       "lang": "pt"
     }
@@ -60,7 +62,8 @@ async function robot(content) {
       await breakContentIntoSentences(withoutBlankLinesAndMarkdown.join(' '))
       await limitMaximumSentence(content)
       await fetchKeywordsOfAllSentences(content)
-      console.log(content.senteces)
+      //console.log(content.senteces)
+      state.save(content.senteces)
       
     }
 
